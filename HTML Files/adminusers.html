@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard: {{ current_user.id }}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/adminusers.css') }}">
+</head>
+
+<body class="bg-dark">
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/admin/dashboard">overview</a>
+    <a href="/admin/dashboard/users">users</a>
+    <a href="/admin/dashboard/licenses">licenses</a>
+    <a href="/admin/dashboard/plans">plans</a>
+    <a href="/admin/dashboard/documentation">api</a>
+    <p class="footer fixed-bottom">logged in as {{ current_user.id }}</p>
+</div>
+<div id="main" class="container-fluid h-10 bg-dark text-white">
+    <div class="col-3 text-left">
+        <div class="navbarbutton"><a href="#" onclick="openNav()"><i class="fas fa-bars"></i></a></div>
+    </div>
+</div>
+<div class="container-fluid h-80 bg-dark text-white">
+    <div class="row h-90">
+        <div class="col-3 text-left">
+        </div>
+        <div class="col-md-6 text-left justify-content-center align-items-center">
+            <div class="card">
+                <table id="dbtable" class="table mb-3 px-2">
+                    <thead class="thead-dark">
+                    <tr class="clickable">
+                        <th scope="col" onclick="sortTable2(0, true)">#</th>
+                        <th scope="col" onclick="sortTable2(1)">Username</th>
+                        <th scope="col" onclick="sortTable2(2)">First</th>
+                        <th scope="col" onclick="sortTable2(3)">Last</th>
+                        <th scope="col" onclick="sortTable2(4)">Email</th>
+                        <th scope="col" onclick="sortTable2(5)">License</th>
+                        <th scope="col" width="10%"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for value in users %}
+                    <tr class="text-dark">
+                        <td scope="row ">{{ users.index(value) }}</td>
+                        <td>@{{ value[0] }}</td>
+                        <td>{{ value[1] }}</td>
+                        <td>{{ value[2] }}</td>
+                        <td>{{ value[3] }}</td>
+                        <td>{{ value[6] }}</td>
+                        {% if value[5] == "FALSE" %}
+                            <td width="10%"><form method="post"><button  id="delete" name="delete" type="submit" class="invisblebutton" value="{{ value[0] }}"><i class="fas fa-trash-alt"></i></button></form></td>
+                        {% else %}
+                            <td width="10%"></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+<div class="container-fluid h-10 bg-dark text-white "></div>
+</body>
+<script src="{{url_for('static', filename='js/tablefunction.js')}}"></script>
+</html>
